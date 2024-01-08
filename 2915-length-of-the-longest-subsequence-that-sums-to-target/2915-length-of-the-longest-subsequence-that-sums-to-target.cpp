@@ -3,8 +3,8 @@ public:
     int dp[1001][1001];
     int dfs(int i,int tar,vector<int>&v){
         if(i == v.size())return ((tar == 0)?0:-1e9);
-        if(tar == 0)return 0;
-        if(tar < 0)return -1e9;
+        if(tar == 0)return dp[i][tar] = 0;
+        if(tar < 0)return dp[i][tar] = -1e9;
         if(dp[i][tar]!=-1)return dp[i][tar];
         int ans = -1e9;
         if((tar - v[i]) >= 0)ans = max(ans,dfs(i+1,tar-v[i],v))+1;
