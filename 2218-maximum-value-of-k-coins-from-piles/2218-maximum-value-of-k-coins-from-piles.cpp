@@ -1,23 +1,19 @@
 class Solution {
 public:
-    // int dp[1001][2001];
-    int dfs(int i,int j,int k,vector<vector<int>>&piles,vector<vector<vector<int>>>&dp){
+    int dp[1000][2001];
+    int dfs(int i,int k,vector<vector<int>>&piles){
         if(i == piles.size())return 0;
-        if(k == 0)return 0;
-        if(dp[i][j][k] != -1)return dp[i][j][k];
-        int left = dfs(i+1,0,k,piles,dp),rig = 0;
-        if(j < piles[i].size())
-        rig = dfs(i,j+1,k-1,piles,dp)+piles[i][j];
-        return dp[i][j][k] = max(left,rig);
+        if(dp[i][k] != -1)return dp[i][k];
+        int ans = 0,run = 0;
+        ans = max(ans,dfs(i+1,k,piles));
+        for(int j=0; j<piles[i].size() && j < k;j++){
+            run += piles[i][j];
+            ans = max(ans, dfs(i+1,k-j-1,piles) + run);
+        }
+        return dp[i][k] = ans;
     }
     int maxValueOfCoins(vector<vector<int>>& piles, int k) {
-        int mx = 0;
-        for(auto it:piles){
-            int x = it.size();
-            mx = max(mx,x);
-        }
-        vector<vector<int>>d1(mx+1,vector<int>(k+1,-1));
-        vector<vector<vector<int>>>dp(piles.size()+1,d1);
-        return dfs(0,0,k,piles,dp);
+        memset(dp,-1,sizeof(dp));
+        return dfs(0,k,piles);
     }
 };
