@@ -10,7 +10,7 @@ class Solution
         vector <int> search(string pat, string txt)
         {
             int n = pat.size(), m = txt.size();
-            vector<int>lps(pat.size(),0);
+            vector<int>lps(txt.size());
             int i = 0, j = 1;
             while(j < n){
                 if(pat[i] == pat[j]){
@@ -34,11 +34,11 @@ class Solution
                     j++;
                 }
                 else{
-                    if(j == 0) i++;
-                    else j = lps[j-1];
+                    if(j == 0)i++;
+                    else j = lps[j -1];
                 }
                 if(j == n){
-                    ans.push_back(i-n+1);
+                    ans.push_back(i - n + 1);
                     j = lps[j-1];
                 }
             }
