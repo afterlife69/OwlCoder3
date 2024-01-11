@@ -39,15 +39,16 @@ class Solution:
         ans=0
         l=[[start,0]]
         c=0
-        vis[start]=1
-        while l:
+        while(len(l)):
+            a=len(l)
             b=l[0]
             l.pop(0)
-            c = max(c,b[1])
-            for i in p[b[0]]:
-                if not vis[i]:
-                    vis[b[0]] = 1
-                    l.append([i,b[1]+1])
+            c = b[1]
+            vis[b[0]]=1
+            for it in p[b[0]]:
+                if vis[it] == 0:
+                    vis[it] = 1
+                    l.append([it,b[1]+1])
                 
                 
         return c
