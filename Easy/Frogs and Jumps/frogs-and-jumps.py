@@ -1,17 +1,23 @@
 #User function Template for python3
 
 class Solution:
-    def unvisitedLeaves(self, N, leaves, frogs):
-        if min(frogs) == 1:
-            return 0
-        ok = [0]*(leaves+1)
-        ok[0] = 1
-        for i in range(N):
-            if frogs[i] <= leaves and not ok[frogs[i]]:
-                for j in range(frogs[i],leaves+1,frogs[i]):
-                    ok[j] = 1
-        return ok.count(0)
-                    
+    def unvisitedLeaves(self, n, leaves, frogs):
+    # code here
+        l=[0]*(leaves+1)
+        l[0]=1
+        cnt=0
+        for i in frogs:
+            if i <= leaves and not l[i]:
+                for j in range(i,leaves+1,i):
+                    if l[j]==0:
+                        l[j]+=1
+                        cnt+=1
+                    if cnt>=leaves:
+                        break
+                if cnt>=leaves:
+                    break
+        
+        return leaves-cnt
 
 
 #{ 
