@@ -11,23 +11,19 @@
  */
 class Solution {
 public:
-    unordered_map<int,int>mp;
-    int dfs(TreeNode* rt){
+    int dfs(TreeNode* rt,int a){
         if(!rt)return 0;
+        a ^= (1 << rt->val);
         if(!rt->left && !rt->right){
-            mp[rt->val]++;
             int cnt = 0;
-            for(auto it: mp)if(it.second % 2)cnt++;
-            mp[rt->val]--;
+            for(int i = 9; i>=0; i--)cnt += (a >> i)&1;
             return cnt <= 1;
         }
-        mp[rt->val]++;
-        int left = dfs(rt->left);
-        int rig = dfs(rt->right);
-        mp[rt->val]--;
+        int left = dfs(rt->left,a);
+        int rig = dfs(rt->right,a);
         return left + rig;
     }
     int pseudoPalindromicPaths (TreeNode* root) {
-        return dfs(root);
+        return dfs(root,0);
     }
 };
