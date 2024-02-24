@@ -5,14 +5,6 @@ public:
     int Find(int x){
         return par[x] == x ? x : par[x] = Find(par[x]);
     }
-    int winFind(int x){
-        if(par[x] == x && x == 0)return 0;
-        else if(par[x] == x)return -1;
-        int y = winFind(par[x]);
-        if(y == -1)par[x] = x;
-        else par[x] = 0;
-        return y;
-    }
     void Union(int u,int v){
         u = Find(u);
         v = Find(v);
