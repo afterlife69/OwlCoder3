@@ -1,8 +1,8 @@
 class Solution:
     def gcdSort(self, nums: List[int]) -> bool:
-        
-        par = [i for i in range(100001)]
-        rank = [0]*len(par)
+        n = max(nums) + 1
+        par = [i for i in range(n)]
+        rank = [0]*n
         def F(x):
             if par[x] == x:
                 return x
