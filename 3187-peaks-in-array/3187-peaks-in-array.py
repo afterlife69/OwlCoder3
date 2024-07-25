@@ -1,23 +1,19 @@
 class Solution:
     def countOfPeaks(self, nums: List[int], queries: List[List[int]]) -> List[int]:
-        N = len(nums)
-        fen = [0] * (N+1)
-        def update(i):
+        N = len(nums) + 1
+        fen = [0] * (N)
+        def update(i, add):
             while i < N:
-                fen[i] += 1
+                fen[i] += add
                 i += (i & (-i))
                 
-        def removal(i):
-            while i < N:
-                fen[i] -= 1
-                i += (i & (-i))
-            
         def getSum(i):
             ans = 0
             while i > 0:
                 ans += fen[i]
                 i -= (i & (-i))
             return ans
+        
         def valid(a):
             curAns =  a > 0 and a < len(nums)-1
             if curAns:
@@ -27,7 +23,7 @@ class Solution:
         
         for i in range(1,len(nums)-1):
             if nums[i] > nums[i-1] and nums[i] > nums[i+1]:
-                update(i)
+                update(i, 1)
         ans = []
         for t,a,b in queries:
             if t == 1:
@@ -45,19 +41,19 @@ class Solution:
                 vaR = valid(a+1)
                 
                 if vbC and not vaC:
-                    removal(a)
+                    update(a, -1)
                 elif not vbC and vaC:
-                    update(a)
+                    update(a, 1)
                     
                 if vbL and not vaL:
-                    removal(a-1)
+                    update(a-1, -1)
                 elif not vbL and vaL:
-                    update(a-1)
+                    update(a-1, 1)
                     
                 if vbR and not vaR:
-                    removal(a+1)
+                    update(a+1, -1)
                 elif not vbR and vaR:
-                    update(a+1)
+                    update(a+1, 1)
         return ans
                 
                 
