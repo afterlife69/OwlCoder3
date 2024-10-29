@@ -1,25 +1,20 @@
 class Solution:
     def maxMoves(self, grid: List[List[int]]) -> int:
         n, m = len(grid) , len(grid[0])
-        
-        @cache
-        def dfs(i, j):
-            if j == m:
-                return 0
-            ans = 0
-            if (j + 1) < m:
-                if (i - 1) >= 0 and grid[i-1][j+1] > grid[i][j]:
-                    ans = max(ans, dfs(i-1, j+1) + 1)
-                if grid[i][j+1] > grid[i][j]:
-                    ans = max(ans, dfs(i, j+1) + 1)
-                if (i + 1) < n and grid[i+1][j+1] > grid[i][j]:
-                    ans = max(ans, dfs(i+1,j+1) + 1)
-            return ans
-            
-        
-        ans = 0
+        dp = [[-1e9] * m for i in range(n)]
         for i in range(n):
-            ans = max(ans, dfs(i, 0))
+            dp[i][0] = 0
+        ans = 0
+        for i in range(1, m):
+            for j in range(n):
+                if grid[j][i-1] < grid[j][i]:
+                    dp[j][i] = 1 + dp[j][i-1]
+                if (j - 1) >= 0 and grid[j-1][i-1] < grid[j][i]:
+                    dp[j][i] = max(dp[j][i], 1 + dp[j-1][i-1])
+                if (j + 1) < n and grid[j+1][i-1] < grid[j][i]:
+                    dp[j][i] = max(dp[j][i], 1 + dp[j+1][i-1])
+                ans = max(ans, dp[j][i])
         return ans
+        
         
                     
