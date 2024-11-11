@@ -3,7 +3,7 @@ class Solution:
         nums.sort()
         n =  len(nums)
         ans = set()
-        for i in range(n - 2):
+        for i in range(n):
             if i > 0 and nums[i] == nums[i-1]:
                 continue
             j, k = i + 1, n - 1
@@ -12,7 +12,8 @@ class Solution:
                 if nums[j] + nums[k] == rem:
                     ans.add((nums[i],nums[j],nums[k]))
                     j += 1
-                    k = n - 1
+                    while j < k and nums[j] == nums[j - 1]:
+                        j += 1
                     continue
                 elif nums[j] + nums[k] > rem:
                     k -= 1
